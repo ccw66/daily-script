@@ -1,0 +1,28 @@
+name: Test github actions
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '20 23 * * *'  #utc时间，北京时间小8个小时，实际24:20+8=32:20
+
+jobs:
+  run_demo_actions:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8.13"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install requirements.txt
+        run: |
+          pip install -r requirements.txt 
+      - name: 龙湖天街签到、抽奖
+        run: python lhtj/run.py
