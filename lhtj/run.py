@@ -155,11 +155,13 @@ class LHTJ:
             response = requests.post(base_url + op, headers=headers, json=payload)
             print(response.text)
 
-    def dualLottery(self):
-        self.signin(user=self.app_sign_data)
-        self.lottery(headers=lhtj.app_headers, payload=lhtj.app_payload)
-        self.signin(user=self.vx_sign_data)
-        self.lottery(headers=lhtj.vx_headers, payload=lhtj.vx_payload)
+    def dualLottery(self,type):
+        if type == 1:
+            self.signin(user=self.app_sign_data)
+            self.signin(user=self.vx_sign_data)
+        elif type == 2:
+            self.lottery(headers=lhtj.app_headers, payload=lhtj.app_payload)
+            self.lottery(headers=lhtj.vx_headers, payload=lhtj.vx_payload)
 
     # 提取activity_no
     def syncActivityNo(self):
@@ -257,6 +259,7 @@ class LHTJ:
 
         response = requests.post(url, headers=headers, json=data)
         res = response.json()
+        
 
         reward_num = (
             res.get("data", {}).get("reward_info", [{}])[0].get("reward_num", 0)
@@ -271,5 +274,5 @@ class LHTJ:
 
 if __name__ == "__main__":
     lhtj = LHTJ()
-    lhtj.dualLottery()
+    lhtj.dualLottery(1)
     # lhtj.syncActivityNo()
