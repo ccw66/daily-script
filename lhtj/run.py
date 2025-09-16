@@ -258,6 +258,7 @@ class LHTJ:
             data["activity_no"] = "11111111111736501868255956070000"
 
         response = requests.post(url, headers=headers, json=data)
+        print(response.text)
         res = response.json()
         
 
